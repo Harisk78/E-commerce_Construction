@@ -4,15 +4,18 @@
     font-family: 'Courier New', Courier, monospace;
 }
 body{
-    background-color: rgb(206, 206, 206);
+    background-color: rgb(232, 232, 232);
     color: aliceblue;
     padding:0rem 1rem;
-    color:black;
+    color:rgb(14, 0, 108);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.368);
     padding:1rem;
 }
 .header{
     text-align: center;
     line-height: 5rem;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
 }
 .whole{
     display: grid;
@@ -20,25 +23,25 @@ body{
     width: 100%;
     row-gap: 1rem;
 }
-.pic{
+/* .pic{
     width:100%;
-}
+} */
 .pic img{
     height: 100%;
     width: 100%;
-    object-fit:cover;
+    object-fit:contain;
 }
 .b{
     background-color: white;
     padding:10px 0px;
     width: 80%;
-    /* background-color: red; */
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 1rem;
     border-radius: 5px;
     padding-top: 0;
+    transition: all 0.2s linear;
 }
 .b:hover{
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.356);
@@ -70,4 +73,26 @@ body{
 .title p{
     font-weight: bold;
     padding:0px 10px;
+}
+.header .navbar{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+} 
+.header .navbar button{
+    padding:10px 30px;
+    border:2px solid rgba(72, 72, 255, 0.858);
+    outline:none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s linear;
+    font-weight:600;
+}
+.header .navbar button:hover{
+    background-color: rgba(72, 72, 255, 0.858);
+    color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.356);
+    transform:translateY(-2px);
+    transition: all 0.2s linear;
 }

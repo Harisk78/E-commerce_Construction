@@ -22,8 +22,8 @@ const ProductGrid = () => {
             <p>{product.name}</p>
           </div>
           <div className="buttons">
-            <input type="number" defaultValue={0} />
-            <button><ion-icon name="cart-outline"></ion-icon></button>
+            <input type="number" min="0" defaultValue={0} />
+            <button onClick={()=>{alert("Added to Cart")}}><ion-icon name="cart-outline"></ion-icon></button>
             <button><ion-icon name="trending-up-outline"></ion-icon></button>
           </div>
         </div>

@@ -15,8 +15,14 @@ function App() {
   return (
     <div>
       <div className="header">
+        <div></div>
         <h1>Products</h1>
+        <div className="navbar">
+          <button>Cart <ion-icon name="cart-outline"></ion-icon></button>
+          <button>Logout <ion-icon name="log-out-outline"></ion-icon></button>
+        </div>
       </div>
+      
       <ProductGrid products={products} />
       <script
         type="module"
