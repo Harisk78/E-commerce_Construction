@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 
-const ProductGrid = ({ products }) => {
+const ProductGrid = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/products')
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .catch(err => console.error('Failed to fetch products:', err));
+  }, []);
+
   return (
     <div className="whole">
       {products.map((product, index) => (
