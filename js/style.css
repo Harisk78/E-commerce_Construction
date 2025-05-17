@@ -1,0 +1,37 @@
+*{
+    padding: 0;
+    margin:0;
+}
+body{
+    background-color: rgb(103, 88, 117);
+    color: aliceblue;
+    padding:0rem 1rem;
+}
+.header{
+    text-align: center;
+    line-height: 5rem;
+}
+.whole{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    width: 100%;
+}
+.pic img{
+    height: 100%;
+    width: 100%;
+    object-fit:cover;
+}
+.pic{
+    border: 5px solid red;
+}
+.b{
+    padding:10px 0px;
+    width: 80%;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.b:hover{
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.356);
+}
