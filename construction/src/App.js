@@ -7,7 +7,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch('http://localhost:5000/products')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error(err));
@@ -16,7 +16,6 @@ function App() {
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
 
   return (
     <div className="container py-4">
@@ -51,6 +50,7 @@ function App() {
           </button>
         </div>
       </div>
+
       <div className="container my-4">
         <input
           type="text"
@@ -61,8 +61,8 @@ function App() {
         />
       </div>
 
-      {/* <ProductGrid products={products} /> */}
       <ProductGrid products={filteredProducts} />
+
       <footer className="bg-dark text-white text-center py-3 mt-5">
         <p className="mb-0">Copyright © 2025 | XYZ.com</p>
       </footer>
