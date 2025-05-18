@@ -4,6 +4,7 @@ import './Components/ProductGridStyle.css';
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:5000/api/products')
@@ -11,6 +12,11 @@ function App() {
       .then(data => setProducts(data))
       .catch(err => console.error(err));
   }, []);
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   return (
     <div className="container py-4">
@@ -50,10 +56,13 @@ function App() {
           type="text"
           className="form-control"
           placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-
       </div>
-      <ProductGrid products={products} />
+
+      {/* <ProductGrid products={products} /> */}
+      <ProductGrid products={filteredProducts} />
       <footer className="bg-dark text-white text-center py-3 mt-5">
         <p className="mb-0">Copyright © 2025 | XYZ.com</p>
       </footer>

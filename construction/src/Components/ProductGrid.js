@@ -49,5 +49,3 @@ const ProductGrid = () => {
     </div>
   );
 };
-
-export default ProductGrid;

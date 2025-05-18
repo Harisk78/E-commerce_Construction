@@ -3,3 +3,7 @@ CREATE TABLE products (
   name VARCHAR(255),
   image LONGBLOB
 );
+
+ALTER TABLE products
+ADD COLUMN parent_id INT DEFAULT NULL,
+ADD CONSTRAINT fk_parent FOREIGN KEY (parent_id) REFERENCES products(id);

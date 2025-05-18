@@ -1,3 +1,15 @@
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index: 1030;
+    background-color: white;
+    padding:1rem;
+}
+.mt-header{
+    margin-top: 130px;
+}
 .button{
     transition: all 0.2s linear;
 }
