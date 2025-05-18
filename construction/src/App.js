@@ -19,53 +19,56 @@ function App() {
 
   return (
     <div className="container py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <h1 className="mb-0">Products</h1>
-        <div className="d-flex align-items-center gap-2 ms-auto">
-          <div className="dropdown">
-            <button
-              className="btn btn-secondary dropdown-toggle button"
-              type="button"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Navigate
-            </button>
-            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-              <li><a className="dropdown-item button" href="#">Home</a></li>
-              <li><a className="dropdown-item button" href="#">Category 1</a></li>
-              <li><a className="dropdown-item button" href="#">Category 2</a></li>
-              <li><a className="dropdown-item button" href="#">Category 3</a></li>
-              <li><a className="dropdown-item button" href="#">Category 4</a></li>
-              <li><a className="dropdown-item button" href="#">Category 5</a></li>
-            </ul>
-          </div>
+      <div className="header">
+          <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+          <h1 className="mb-0">Products</h1>
+          <div className="d-flex align-items-center gap-2 ms-auto">
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle button"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Navigate
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item button" href="#">Home</a></li>
+                <li><a className="dropdown-item button" href="#">Category 1</a></li>
+                <li><a className="dropdown-item button" href="#">Category 2</a></li>
+                <li><a className="dropdown-item button" href="#">Category 3</a></li>
+                <li><a className="dropdown-item button" href="#">Category 4</a></li>
+                <li><a className="dropdown-item button" href="#">Category 5</a></li>
+              </ul>
+            </div>
 
-          <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
-            <ion-icon name="cart-outline"></ion-icon> Cart
-          </button>
-          <button className="btn btn-outline-danger d-flex align-items-center gap-1 button">
-            <ion-icon name="log-out-outline"></ion-icon> Logout
-          </button>
+            <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
+              <ion-icon name="cart-outline"></ion-icon> Cart
+            </button>
+            <button className="btn btn-outline-danger d-flex align-items-center gap-1 button">
+              <ion-icon name="log-out-outline"></ion-icon> Logout
+            </button>
+          </div>
+        </div>
+
+        <div className="container my-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
+      <div className="mt-header">
+        <ProductGrid products={filteredProducts} />
 
-      <div className="container my-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search products..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <footer className="bg-dark text-white text-center py-3 mt-5">
+          <p className="mb-0">Copyright © 2025 | XYZ.com</p>
+        </footer>
       </div>
-
-      <ProductGrid products={filteredProducts} />
-
-      <footer className="bg-dark text-white text-center py-3 mt-5">
-        <p className="mb-0">Copyright © 2025 | XYZ.com</p>
-      </footer>
     </div>
   );
 }
