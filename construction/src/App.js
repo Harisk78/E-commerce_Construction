@@ -15,7 +15,6 @@ function App() {
   return (
     <div>
       <div className="header">
-        <div></div>
         <h1>Products</h1>
         <div className="navbar">
           <button>Cart <ion-icon name="cart-outline"></ion-icon></button>
