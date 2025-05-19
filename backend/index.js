@@ -36,6 +36,13 @@ app.get('/products', (req, res) => {
   });
 });
 
+app.get('/product-names', (req, res) => {
+  db.query('SELECT DISTINCT name FROM products', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results.map(row => row.name));
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

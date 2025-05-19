@@ -26,11 +26,11 @@ const ProductGrid = ({ products }) => {
                       type="number"
                       min="0"
                       defaultValue={0}
-                      className="form-control w-25"
+                      className="form-control w-25 quantity"
                     />
                     <button
                       className="btn btn-outline-primary button"
-                      onClick={() => alert("Added to Cart")}
+                      onClick={()=>alert("")}
                     >
                       <ion-icon name="cart-outline"></ion-icon>
                     </button>

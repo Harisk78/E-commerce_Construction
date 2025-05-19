@@ -8,16 +8,23 @@ import Img1 from './Images/img1.jpg';
 import Img2 from './Images/img2.jpg';
 import Img3 from './Images/img3.jpg';
 
-
 function App() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [productNames, setProductNames] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:5000/products')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error(err));
+  }, []);
+
+  useEffect(() => {
+  fetch('http://localhost:5000/product-names')
+    .then(res => res.json())
+    .then(data => setProductNames(data))
+    .catch(err => console.error(err));
   }, []);
 
   const filteredProducts = products.filter(product =>
@@ -32,24 +39,27 @@ function App() {
             <h1 className="mb-0">Products</h1>
             <div className="d-flex align-items-center gap-2 ms-auto">
               <div className="dropdown">
-                <button
-                  className="btn btn-secondary dropdown-toggle button"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Navigate
-                </button>
-                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                  <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                  <li><Link className="dropdown-item button" to="/category1">Category 1</Link></li>
-                  <li><Link className="dropdown-item button" to="/category2">Category 2</Link></li>
-                  <li><Link className="dropdown-item button" to="/category3">Category 3</Link></li>
-                  <li><Link className="dropdown-item button" to="/category4">Category 4</Link></li>
-                  <li><Link className="dropdown-item button" to="/category5">Category 5</Link></li>
-                </ul>
+                  <button
+                    className="btn btn-secondary dropdown-toggle button"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Navigate
+                  </button>
+                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                    <li><a className="dropdown-item button" href="/">Home</a></li>
+                    {productNames.map((name, index) => (
+                      <li key={index}>
+                        <a className="dropdown-item button" href="#">
+                          {name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
               </div>
+
 
               <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
                 <ion-icon name="cart-outline"></ion-icon> Cart
@@ -72,7 +82,7 @@ function App() {
         </div>
 
         <div className="mt-header">
-          {/* 🔽 Image Slider with Autoplay */}
+          {/*Image Slider with Autoplay */}
           <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
             <div className="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -99,7 +109,7 @@ function App() {
               <span className="visually-hidden">Next</span>
             </button>
           </div>
-          {/* 🔼 Image Slider with Autoplay */}
+          {/*Image Slider with Autoplay */}
 
           <Routes>
             <Route path="/" element={<ProductGrid products={filteredProducts} />} />
