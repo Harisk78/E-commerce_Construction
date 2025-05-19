@@ -13,7 +13,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [parentProducts, setParentProducts] = useState([]);
-
+  
   // Fetch all products
   useEffect(() => {
     fetch('http://localhost:5000/products')
