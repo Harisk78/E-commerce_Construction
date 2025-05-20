@@ -81,24 +81,33 @@ app.get('/products/:parentId/name', (req, res) => {
 });
 
 // ✅ New: Get related products for a given product ID
-app.get('/relatedproducts/:productId', (req, res) => {
-  const productId = req.params.productId;
-  const query = 'SELECT id, name, image, description, price FROM relatedproducts WHERE product_id = ?';
+app.get('/relatedproducts/:parentId', (req, res) => {
+  const parentId = req.params.parentId;
+  const query = `
+    SELECT 
+      r.id AS related_id,
+      r.name,
+      r.image,
+      p.name AS product_name
+    FROM relatedproducts r
+    JOIN products p ON r.product_id = p.id
+    WHERE r.product_id = ?
+  `;
 
-  db.query(query, [productId], (err, results) => {
+  db.query(query, [parentId], (err, results) => {
     if (err) return res.status(500).json({ error: err });
 
-    const related = results.map(row => ({
-      id: row.id,
+    const relatedData = results.map(row => ({
+      id: row.related_id,
       name: row.name,
-      description: row.description,
-      price: row.price,
-      imageUrl: `data:image/jpeg;base64,${row.image.toString('base64')}`
+      imageUrl: row.image ? `data:image/jpeg;base64,${row.image.toString('base64')}` : '',
     }));
 
-    res.json(related);
+    res.json(relatedData);
   });
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
