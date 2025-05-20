@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ProductGrid from './Components/ProductGrid';
 import RelatedProducts from './Components/RelatedProducts';
+import Cart from './Components/Cart';
 import './Components/ProductGridStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -86,10 +87,11 @@ function App() {
                     ))}
                 </ul>
               </div>
-
-              <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
-                <ion-icon name="cart-outline"></ion-icon> Cart
-              </button>
+              <Link to={`/cart`} className='text-decoration-none'>
+                <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
+                  <ion-icon name="cart-outline"></ion-icon> Cart
+                </button>
+              </Link>
               <button className="btn btn-outline-danger d-flex align-items-center gap-1 button">
                 <ion-icon name="log-out-outline"></ion-icon> Logout
               </button>
@@ -141,6 +143,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ProductGrid products={filteredProducts} />} />
             <Route path="/related/:parentid" element={<RelatedProducts />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
 
           <footer className="bg-dark text-white text-center py-3 mt-5">

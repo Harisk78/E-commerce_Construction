@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+const cartItems = [];
+
+export const getCartItems = () => cartItems;
+
 const RelatedProducts = () => {
   const { parentid } = useParams();
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [parentName, setParentName] = useState('');
+  const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
     fetch(`http://localhost:5000/products/${parentid}/name`)
@@ -14,9 +19,24 @@ const RelatedProducts = () => {
 
     fetch(`http://localhost:5000/relatedproducts/${parentid}`)
       .then(res => res.json())
-      .then(data => setRelatedProducts(data))
+      .then(data => {
+        setRelatedProducts(data);
+        const initialQuantities = {};
+        data.forEach(p => (initialQuantities[p.id] = 1));
+        setQuantities(initialQuantities);
+      })
       .catch(err => console.error('Error fetching related products:', err));
   }, [parentid]);
+
+  const handleQuantityChange = (id, value) => {
+    setQuantities(prev => ({ ...prev, [id]: parseInt(value) || 1 }));
+  };
+
+  const handleAddToCart = product => {
+    const quantity = quantities[product.id] || 1;
+    cartItems.push({ ...product, quantity });
+    alert(`${product.name} added to cart`);
+  };
 
   return (
     <div className="container mt-4">
@@ -36,9 +56,23 @@ const RelatedProducts = () => {
                 )}
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{product.name}</h5>
-                  <div className="mt-auto d-flex justify-content-around align-items-center gap-4">
-                    <button className="btn btn-outline-primary w-50"><ion-icon name="cart-outline"></ion-icon></button>
-                    <button className="btn btn-outline-success w-50"><ion-icon name="bag-add-outline"></ion-icon></button>
+                  <input
+                    type="number"
+                    min="1"
+                    className="form-control mb-2"
+                    value={quantities[product.id] || 1}
+                    onChange={e => handleQuantityChange(product.id, e.target.value)}
+                  />
+                  <div className="mt-auto d-flex justify-content-around align-items-center gap-2">
+                    <button
+                      className="btn btn-outline-primary w-50"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                    <button className="btn btn-outline-success w-50">
+                      <ion-icon name="bag-add-outline"></ion-icon>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -48,7 +82,9 @@ const RelatedProducts = () => {
           <p>No related products found.</p>
         )}
       </div>
-      <p className='link-opacity-80-hover'><a href="/">Back to Home</a></p>
+      <p className="link-opacity-80-hover">
+        <a href="/">Back to Home</a>
+      </p>
     </div>
   );
 };
