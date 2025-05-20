@@ -36,9 +36,9 @@ const RelatedProducts = () => {
                 )}
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{product.name}</h5>
-                  <div className="mt-auto d-flex gap-2">
-                    <button className="btn btn-primary w-50">Add to Cart</button>
-                    <button className="btn btn-success w-50">Buy Now</button>
+                  <div className="mt-auto d-flex justify-content-around align-items-center gap-4">
+                    <button className="btn btn-outline-primary w-50"><ion-icon name="cart-outline"></ion-icon></button>
+                    <button className="btn btn-outline-success w-50"><ion-icon name="bag-add-outline"></ion-icon></button>
                   </div>
                 </div>
               </div>
