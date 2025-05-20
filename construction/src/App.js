@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ProductGrid from './Components/ProductGrid';
+import RelatedProducts from './Components/RelatedProducts';
 import './Components/ProductGridStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import RelatedProducts from './Components/RelatedProducts.js'
 import Img1 from './Images/img1.jpg';
 import Img2 from './Images/img2.jpg';
 import Img3 from './Images/img3.jpg';
@@ -13,21 +13,41 @@ function App() {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [parentProducts, setParentProducts] = useState([]);
-  
+
   // Fetch all products
   useEffect(() => {
     fetch('http://localhost:5000/products')
       .then(res => res.json())
-      .then(data => setProducts(data))
-      .catch(err => console.error(err));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setProducts(data);
+        } else {
+          console.error('Expected array for products:', data);
+          setProducts([]);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching products:', err);
+        setProducts([]);
+      });
   }, []);
 
   // Fetch parent products for dropdown
   useEffect(() => {
     fetch('http://localhost:5000/products/parents')
       .then(res => res.json())
-      .then(data => setParentProducts(data))
-      .catch(err => console.error('Failed to fetch parent products:', err));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setParentProducts(data);
+        } else {
+          console.error('Expected array for parent products:', data);
+          setParentProducts([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching parent products:', error);
+        setParentProducts([]);
+      });
   }, []);
 
   const filteredProducts = products.filter(product =>
@@ -56,13 +76,14 @@ function App() {
                   <li>
                     <Link className="dropdown-item button" to="/">Home</Link>
                   </li>
-                  {parentProducts.map((product) => (
-                    <li key={product.id}>
-                      <Link className="dropdown-item button" to={`/related/${product.id}`}>
-                        {product.name}
-                      </Link>
-                    </li>
-                  ))}
+                  {Array.isArray(parentProducts) &&
+                    parentProducts.map((product) => (
+                      <li key={product.id}>
+                        <Link className="dropdown-item button" to={`/related/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
 
