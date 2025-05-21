@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 
 const cartItems = [];
 
-export const getCartItems = () => cartItems;
+export const getCartItems = () => {
+  const stored = localStorage.getItem('cart');
+  return stored ? JSON.parse(stored) : [];
+};
 
-const RelatedProducts = () => {
+const RelatedProducts = ({ searchQuery }) => {
   const { parentid } = useParams();
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [parentName, setParentName] = useState('');
@@ -33,17 +36,23 @@ const RelatedProducts = () => {
   };
 
   const handleAddToCart = product => {
-    const quantity = quantities[product.id] || 1;
-    cartItems.push({ ...product, quantity });
-    alert(`${product.name} added to cart`);
-  };
+  const quantity = quantities[product.id] || 1;
+  const currentCart = getCartItems();
+  const updatedCart = [...currentCart, { ...product, quantity }];
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+  alert(`${product.name} added to cart`);
+};
+
+  const filteredRelated = relatedProducts.filter(p =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="container mt-4">
       <h2 className="mb-4">{parentName}</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {relatedProducts.length > 0 ? (
-          relatedProducts.map(product => (
+        {filteredRelated.length > 0 ? (
+          filteredRelated.map(product => (
             <div className="col" key={product.id}>
               <div className="card h-100 shadow-sm">
                 {product.imageUrl && (

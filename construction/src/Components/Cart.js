@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { getCartItems } from './RelatedProducts';
 
-let cartItemsRef = getCartItems();
-
-const Cart = () => {
+const Cart = ({ searchQuery }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    setItems([...cartItemsRef]);
+    const storedItems = localStorage.getItem('cart');
+    if (storedItems) {
+      setItems(JSON.parse(storedItems));
+    }
   }, []);
 
   const handleRemove = (indexToRemove) => {
-    cartItemsRef.splice(indexToRemove, 1); // Remove from shared cart reference
-    setItems([...cartItemsRef]);           // Refresh local state
+    const updatedItems = [...items];
+    updatedItems.splice(indexToRemove, 1);
+    setItems(updatedItems);
+    localStorage.setItem('cart', JSON.stringify(updatedItems));
   };
+
+  const filteredItems = items.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Your cart</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {items.length > 0 ? (
-          items.map((item, index) => (
+        {filteredItems.length > 0 ? (
+          filteredItems.map((item, index) => (
             <div className="col" key={index}>
               <div className="card h-100 shadow-sm">
                 {item.imageUrl && (
@@ -34,6 +40,9 @@ const Cart = () => {
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{item.name}</h5>
                   <p>Quantity: {item.quantity}</p>
+                  <button className='btn btn-outline-success mb-2'>
+                    <ion-icon name="bag-add-outline"></ion-icon>
+                  </button>
                   <button
                     className="btn btn-outline-danger mt-auto"
                     onClick={() => handleRemove(index)}

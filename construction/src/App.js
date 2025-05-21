@@ -71,7 +71,7 @@ function App() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Navigate
+                  What are you looking for
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                   <li>
@@ -142,8 +142,8 @@ function App() {
           {/* Routes */}
           <Routes>
             <Route path="/" element={<ProductGrid products={filteredProducts} />} />
-            <Route path="/related/:parentid" element={<RelatedProducts />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/related/:parentid" element={<RelatedProducts searchQuery={searchQuery} />} />
+            <Route path="/cart" element={<Cart searchQuery={searchQuery} />} />
           </Routes>
 
           <footer className="bg-dark text-white text-center py-3 mt-5">

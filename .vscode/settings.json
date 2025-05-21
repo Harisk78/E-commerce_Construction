@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Enabled",
+                "ssl": {
+                    "ca": "C:\\E-commerce_Construction\\isrgrootx1.pem"
+                }
+            },
+            "previewLimit": 50,
+            "server": "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
+            "port": 4000,
+            "driver": "TiDB",
+            "name": "E-commerce_construction",
+            "username": "3SaC4CjeFeQ5q9D.root",
+            "database": "product_db",
+            "askForPassword": true
+        }
+    ]
+}
