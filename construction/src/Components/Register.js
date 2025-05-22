@@ -1,0 +1,40 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Register = () => {
+  const [form, setForm] = useState({ username: '', password: '', phone: '' });
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const res = await fetch('http://localhost:5000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+    if (res.ok) {
+      alert('Registered successfully! Please log in.');
+      navigate('/login');
+    } else {
+      alert('Registration failed');
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input className="form-control my-2" name="username" placeholder="Username" onChange={handleChange} required />
+        <input className="form-control my-2" name="password" type="password" placeholder="Password" onChange={handleChange} required />
+        <input className="form-control my-2" name="phone" placeholder="Phone Number" onChange={handleChange} required />
+        <button className="btn btn-primary" type="submit">Register</button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
