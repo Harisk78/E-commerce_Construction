@@ -5,6 +5,7 @@ import RelatedProducts from './Components/RelatedProducts';
 import Cart from './Components/Cart';
 import Login from './Components/Login';
 import Register from './Components/Register';
+import Admin from './admin/Admin';
 import './Components/ProductGridStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -25,7 +26,6 @@ const ProtectedRoute = ({ isLoggedIn, children }) => {
 function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, handleLogout }) {
   return (
     <div className="container py-4">
-      {/* Header with dropdown and search */}
       <div className="header bg-light shadow">
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
           <h1 className="mb-0">Products</h1>
@@ -54,7 +54,6 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
           </div>
         </div>
 
-        {/* Search Bar */}
         <div className="container my-4">
           <input
             type="text"
@@ -66,7 +65,6 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
         </div>
       </div>
 
-      {/* Image Carousel */}
       <div className="mt-header">
         <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
           <div className="carousel-indicators">
@@ -95,7 +93,6 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
           </button>
         </div>
 
-        {/* Page Content Routes */}
         <Routes>
           <Route path="/" element={
             <ProductGrid products={products.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()))} />
@@ -104,7 +101,6 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
           <Route path="/cart" element={<Cart searchQuery={searchQuery} />} />
         </Routes>
 
-        {/* Footer */}
         <footer className="bg-dark text-white text-center py-3 mt-5">
           <p className="mb-0">Copyright © 2025 | XYZ.com</p>
         </footer>
@@ -117,12 +113,8 @@ function App() {
   const [products, setProducts] = useState([]);
   const [parentProducts, setParentProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // Initialize isLoggedIn from localStorage to persist login state on reload
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true';
-  });
-
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
+  const [isAdmin, setIsAdmin] = useState(() => localStorage.getItem('isAdmin') === 'true');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -139,21 +131,42 @@ function App() {
       .catch(() => setParentProducts([]));
   }, []);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', 'true');  // persist login state
-    navigate('/');
+  const handleLogin = (username, password) => {
+    if (username === 'admin' && password === 'admin123') {
+      setIsAdmin(true);
+      localStorage.setItem('isAdmin', 'true');
+      setIsLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
+      navigate('/admin');
+    } else {
+      setIsAdmin(false);
+      localStorage.setItem('isAdmin', 'false');
+      setIsLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
+      navigate('/');
+    }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem('isLoggedIn'); // clear login state
+    setIsAdmin(false);
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('isAdmin');
     navigate('/login');
   };
 
   return (
     <Routes>
       <Route path="/login" element={<Login setIsAuthenticated={handleLogin} />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn && isAdmin}>
+            <Admin />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/*"
         element={
@@ -168,7 +181,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }

@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = ({ setIsAuthenticated }) => {
-  const [form, setForm] = useState({ username: '', password: '' });
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const res = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-
-    if (res.ok) {
-      setIsAuthenticated(true);
-      navigate('/');
-    } else {
-      alert('Invalid credentials');
-    }
+  const handleSubmit = () => {
+    setIsAuthenticated(username, password);
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input className="form-control my-2" name="username" placeholder="Username" onChange={handleChange} required />
-        <input className="form-control my-2" name="password" type="password" placeholder="Password" onChange={handleChange} required />
-        <button className="btn btn-success" type="submit">Login</button>
-      </form>
-      <p className="mt-3">New user? <Link to="/register">Register Now</Link></p>
+    <div className="container py-5" style={{ maxWidth: '400px' }}>
+      <h2 className="mb-4 text-center">Login</h2>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button className="btn btn-primary w-100 mb-3" onClick={handleSubmit}>
+        Login
+      </button>
+      <div className="text-center">
+        <p>
+          New here?{' '}
+          <Link to="/register" className="text-decoration-none">
+            Register if you are new
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

@@ -25,13 +25,13 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Register</h2>
+    <div className="container py-5" style={{ maxWidth: '400px' }}>
+      <h2 className='mb-4 text-center'>Register</h2>
       <form onSubmit={handleSubmit}>
         <input className="form-control my-2" name="username" placeholder="Username" onChange={handleChange} required />
         <input className="form-control my-2" name="password" type="password" placeholder="Password" onChange={handleChange} required />
         <input className="form-control my-2" name="phone" placeholder="Phone Number" onChange={handleChange} required />
-        <button className="btn btn-primary" type="submit">Register</button>
+        <button className="btn btn-primary w-100 mb-3" type="submit">Register</button>
       </form>
     </div>
   );
