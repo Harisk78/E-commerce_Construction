@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import ProductGrid from './Components/ProductGrid';
-import RelatedProducts from './Components/RelatedProducts';
-import Cart from './Components/Cart';
-import Login from './Components/Login';
-import Register from './Components/Register';
-import Admin from './admin/Admin';
+import ProductGrid from './Components/ProductGrid.jsx';
+import RelatedProducts from './Components/RelatedProducts.jsx';
+import Cart from './Components/Cart.jsx';
+import Login from './Components/Login.jsx';
+import Register from './Components/Register.jsx';
+import Admin from './Admin.jsx'
 import './Components/ProductGridStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';

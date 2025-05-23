@@ -1,12 +1,38 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    setIsAuthenticated(username, password);
+  const handleSubmit = async () => {
+    // Admin login (hardcoded)
+    if (username === 'admin' && password === 'admin123') {
+      setIsAuthenticated(username, password);
+      navigate('/Admin');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/users?username=${username}&password=${password}`);
+      const data = await response.json();
+
+      if (response.ok && data) {
+        if (data.length > 0) {
+          // Valid user credentials
+          setIsAuthenticated(username, password);
+          navigate('/');
+        } else {
+          alert('Wrong User credentials');
+        }
+      } else {
+        alert('Please register first');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login. Please try again.');
+    }
   };
 
   return (

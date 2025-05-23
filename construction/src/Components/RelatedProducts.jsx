@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const cartItems = [];
+// const cartItems = [];
 
 export const getCartItems = () => {
   const stored = localStorage.getItem('cart');
