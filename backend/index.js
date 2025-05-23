@@ -61,17 +61,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/users', (req, res) => {
-  const { username, password } = req.query;
-  const query = 'SELECT * FROM user_details WHERE username = ? AND password = ?';
-
-  db.query(query, [username, password], (err, results) => {
-    if (err) return res.status(500).json({ error: err });
-    res.json(results);
-  });
-});
-
-
 // ✅ Get all products
 app.get('/products', (req, res) => {
   db.query('SELECT id, name, image FROM products', (err, results) => {
