@@ -36,12 +36,19 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                {Array.isArray(parentProducts) && parentProducts.map((product) => (
-                  <li key={product.id}>
-                    <Link className="dropdown-item button" to={`/related/${product.id}`}>{product.name}</Link>
-                  </li>
-                ))}
+                {parentProducts && parentProducts.length > 0 ? (
+                  parentProducts.map((product) => (
+                    <li key={product.id}>
+                      <Link className="dropdown-item button" to={`/related/${product.id}`}>
+                        {product.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li><span className="dropdown-item text-muted">Loading...</span></li>
+                )}
               </ul>
+
             </div>
             <Link to="/cart" className="text-decoration-none">
               <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
@@ -125,10 +132,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5000/products/parents')
-      .then(res => res.json())
-      .then(data => Array.isArray(data) ? setParentProducts(data) : setParentProducts([]))
-      .catch(() => setParentProducts([]));
+  fetch('http://localhost:5000/products/parents')
+    .then(res => res.json())
+    .then(data => {
+      console.log("Fetched parent products:", data); // DEBUG LOG
+      if (Array.isArray(data)) setParentProducts(data);
+    })
+    .catch((err) => {
+      console.error("Failed to fetch parent products:", err);
+      setParentProducts([]);
+    });
   }, []);
 
   const handleLogin = (username, password) => {
@@ -181,7 +194,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path='home' element={<ProductGrid products={products}/>}/>
+      {/* <Route path='home' element={<ProductGrid products={products}/>}/> */}
     </Routes>
   );
 }

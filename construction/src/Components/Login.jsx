@@ -15,19 +15,21 @@ const Login = ({ setIsAuthenticated }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/users?username=${username}&password=${password}`);
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
       const data = await response.json();
 
-      if (response.ok && data) {
-        if (data.length > 0) {
-          // Valid user credentials
-          setIsAuthenticated(username, password);
-          navigate('/');
-        } else {
-          alert('Wrong User credentials');
-        }
+      if (response.ok && data.message === 'Login successful') {
+        setIsAuthenticated(username, password);
+        navigate('/');
       } else {
-        alert('Please register first');
+        alert('Wrong user credentials');
       }
     } catch (error) {
       console.error('Login error:', error);
