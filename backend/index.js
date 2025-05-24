@@ -6,12 +6,14 @@ const app = express();
 const PORT = 5000;
 
 app.use(cors());
+app.use(express.json()); // Important for POST/PUT requests
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'product_db',
+  host: 'mysql-2ebaaef9-ecommerce-construction-1.c.aivencloud.com',
+  user: 'avnadmin',
+  password: 'AVNS_LDkcNv993LfkzZNEvkR',
+  database: 'defaultdb',
+  port: 23012, // IMPORTANT: Use correct port from Aiven
 });
 
 db.connect(err => {
@@ -29,9 +31,10 @@ app.get('/products', (req, res) => {
     const products = results.map(row => ({
       id: row.id,
       name: row.name,
-      imageUrl: `data:image/jpeg;base64,${row.image.toString('base64')}`,
+      imageUrl: row.image ? `data:image/jpeg;base64,${row.image.toString('base64')}` : null,
     }));
 
+    console.log(products);
     res.json(products);
   });
 });

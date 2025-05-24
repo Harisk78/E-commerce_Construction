@@ -16,8 +16,7 @@ const ProductGrid = ({ products }) => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="card-img-top"
-                  style={{ height: '250px', objectFit: 'cover' }}
+                  className="card-img-top product-image"
                 />
                 <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title text-center">{product.name}</h5>
