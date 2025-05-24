@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Enabled",
+                "ssl": {
+                    "ca": "C:\\E-commerce_Construction\\ca.pem"
+                }
+            },
+            "previewLimit": 50,
+            "server": "mysql-2ebaaef9-ecommerce-construction-1.c.aivencloud.com",
+            "port": 23012,
+            "driver": "MySQL",
+            "name": "E-commerce_Construction",
+            "username": "avnadmin",
+            "database": "defaultdb"
+        }
+    ]
+}
