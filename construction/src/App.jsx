@@ -125,14 +125,14 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/products')
+    fetch('https://e-commerce-construction.vercel.app/products')
       .then(res => res.json())
       .then(data => Array.isArray(data) ? setProducts(data) : setProducts([]))
       .catch(() => setProducts([]));
   }, []);
 
   useEffect(() => {
-  fetch('http://localhost:5000/products/parents')
+  fetch('https://e-commerce-construction.vercel.app/products/parents')
     .then(res => res.json())
     .then(data => {
       console.log("Fetched parent products:", data); // DEBUG LOG

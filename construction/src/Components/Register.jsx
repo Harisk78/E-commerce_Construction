@@ -11,7 +11,7 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const res = await fetch('http://localhost:5000/register', {
+    const res = await fetch('https://e-commerce-construction.vercel.app/products/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

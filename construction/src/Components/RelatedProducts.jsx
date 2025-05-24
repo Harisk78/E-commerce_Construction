@@ -15,12 +15,12 @@ const RelatedProducts = ({ searchQuery }) => {
   const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${parentid}/name`)
+    fetch(`https://e-commerce-construction.vercel.app/products/${parentid}/name`)
       .then(res => res.json())
       .then(data => setParentName(data.name))
       .catch(err => console.error('Error fetching parent name:', err));
 
-    fetch(`http://localhost:5000/relatedproducts/${parentid}`)
+    fetch(`https://e-commerce-construction.vercel.app/relatedproducts/${parentid}`)
       .then(res => res.json())
       .then(data => {
         setRelatedProducts(data);

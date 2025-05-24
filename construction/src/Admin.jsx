@@ -16,19 +16,19 @@ const Admin = () => {
 
   const fetchData = async () => {
     if (view === 'category') {
-      const res = await fetch('http://localhost:5000/products/parents');
+      const res = await fetch('https://e-commerce-construction.vercel.app/products/parents');
       const data = await res.json();
       setCategories(data);
     } else if (view === 'related') {
-      const res = await fetch('http://localhost:5000/products');
+      const res = await fetch('https://e-commerce-construction.vercel.app/products');
       const data = await res.json();
       setRelatedProducts(data);
     } else if (view === 'users') {
-      const res = await fetch('http://localhost:5000/users');
+      const res = await fetch('https://e-commerce-construction.vercel.app/users');
       const data = await res.json();
       setUsers(data);
     } else if (view === 'requests') {
-      const res = await fetch('http://localhost:5000/requests');
+      const res = await fetch('https://e-commerce-construction.vercel.app/requests');
       const data = await res.json();
       setRequests(data);
     }
@@ -40,9 +40,9 @@ const Admin = () => {
 
   const handleAdd = async () => {
     let url = '';
-    if (view === 'category') url = 'http://localhost:5000/products';
-    else if (view === 'related') url = 'http://localhost:5000/products';
-    else if (view === 'users') url = 'http://localhost:5000/users';
+    if (view === 'category') url = 'https://e-commerce-construction.vercel.app/products';
+    else if (view === 'related') url = 'https://e-commerce-construction.vercel.app/relatedproducts';
+    else if (view === 'users') url = 'https://e-commerce-construction.vercel.app/users';
 
     const res = await fetch(url, {
       method: 'POST',
