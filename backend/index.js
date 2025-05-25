@@ -1,14 +1,13 @@
+// index.js
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const fs = require('fs');
 
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 const db = mysql.createConnection({
   host: 'mysql-2ebaaef9-ecommerce-construction-1.c.aivencloud.com',
@@ -26,116 +25,133 @@ db.connect(err => {
   console.log('Connected to MySQL');
 });
 
-// ✅ Create user_details table if not exists
-db.query(`
-  CREATE TABLE IF NOT EXISTS user_details (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    phone VARCHAR(15) NOT NULL
-  )
-`);
-
-// ✅ Register endpoint
-app.post('/register', (req, res) => {
-  const { username, password, phone } = req.body;
-  db.query('INSERT INTO user_details (username, password, phone) VALUES (?, ?, ?)', [username, password, phone], (err) => {
-    if (err) return res.status(500).json({ message: 'Error registering user' });
-    res.status(200).json({ message: 'User registered successfully' });
-  });
-});
-
-// ✅ Login endpoint
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  db.query('SELECT * FROM user_details WHERE username = ? AND password = ?', [username, password], (err, results) => {
-    if (err) return res.status(500).json({ message: 'Login error' });
-    if (results.length > 0) {
-      res.status(200).json({ message: 'Login successful' });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
-    }
-  });
-});
-
-// ✅ Get all products
+// PRODUCTS
 app.get('/products', (req, res) => {
-  db.query('SELECT id, name, image FROM products', (err, results) => {
-    if (err) return res.status(500).json({ error: err });
-    const products = results.map(row => ({
-      id: row.id,
-      name: row.name,
-      imageUrl: row.image ? `data:image/jpeg;base64,${row.image.toString('base64')}` : null,
-    }));
-
-    res.json(products);
-  });
-});
-
-// ✅ Get distinct product names
-app.get('/product-names', (req, res) => {
-  db.query('SELECT DISTINCT name FROM products', (err, results) => {
-    if (err) return res.status(500).json({ error: err });
-    res.json(results.map(row => row.name));
-  });
-});
-
-// ✅ Get parent products
-app.get('/products/parents', (req, res) => {
-  db.query('SELECT id, name FROM products WHERE parent_id IS NULL', (err, results) => {
+  db.query('SELECT * FROM products', (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
 });
 
-// ✅ Get child products by parent ID
-app.get('/products/:parentId/children', (req, res) => {
-  const parentId = req.params.parentId;
-  db.query('SELECT id, name, image FROM products WHERE parent_id = ?', [parentId], (err, results) => {
+app.post('/products', (req, res) => {
+  const { name, image } = req.body;
+  db.query('INSERT INTO products (name, image) VALUES (?, ?)', [name, image], (err) => {
     if (err) return res.status(500).json({ error: err });
-    const children = results.map(row => ({
-      id: row.id,
-      name: row.name,
-      imageUrl: `data:image/jpeg;base64,${row.image.toString('base64')}`,
-    }));
-    res.json(children);
+    res.json({ success: true });
   });
 });
 
-// ✅ Get parent product name by ID
-app.get('/products/:parentId/name', (req, res) => {
-  const parentId = req.params.parentId;
-  db.query('SELECT name FROM products WHERE id = ?', [parentId], (err, results) => {
+app.put('/products/:id', (req, res) => {
+  const { name, image } = req.body;
+  db.query('UPDATE products SET name = ?, image = ? WHERE id = ?', [name, image, req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.delete('/products/:id', (req, res) => {
+  db.query('DELETE FROM products WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.get('/products/:id/name', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT name FROM products WHERE id = ?', [id], (err, results) => {
     if (err) return res.status(500).json({ error: err });
     if (results.length === 0) return res.status(404).json({ error: 'Product not found' });
-    res.json({ name: results[0].name });
+    res.json(results[0]);
   });
 });
 
-// ✅ Get related products for a given product ID
-app.get('/relatedproducts/:parentId', (req, res) => {
-  const parentId = req.params.parentId;
-  const query = `
-    SELECT 
-      r.id AS related_id,
-      r.name,
-      r.image,
-      p.name AS product_name
-    FROM relatedproducts r
-    JOIN products p ON r.product_id = p.id
-    WHERE r.product_id = ?
-  `;
 
-  db.query(query, [parentId], (err, results) => {
+// RELATED PRODUCTS
+app.get('/relatedproducts/:parentid', (req, res) => {
+  const parentId = req.params.parentid;
+  db.query('SELECT rp.*, p.name as parent_name FROM relatedproducts rp LEFT JOIN products p ON rp.parent_id = p.id', (err, results) => {
     if (err) return res.status(500).json({ error: err });
-    const relatedData = results.map(row => ({
-      id: row.related_id,
-      name: row.name,
-      imageUrl: row.image ? `data:image/jpeg;base64,${row.image.toString('base64')}` : '',
-    }));
-    res.json(relatedData);
+    res.json(results);
   });
 });
+
+app.post('/relatedproducts', (req, res) => {
+  const { name, image, parent_id } = req.body;
+  db.query('INSERT INTO relatedproducts (name, image, parent_id) VALUES (?, ?, ?)', [name, image, parent_id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.put('/relatedproducts/:id', (req, res) => {
+  const { name, image, parent_id } = req.body;
+  db.query('UPDATE relatedproducts SET name = ?, image = ?, parent_id = ? WHERE id = ?', [name, image, parent_id, req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.delete('/relatedproducts/:id', (req, res) => {
+  db.query('DELETE FROM relatedproducts WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+// USERS
+app.get('/users', (req, res) => {
+  db.query('SELECT * FROM user_details', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+app.post('/users', (req, res) => {
+  const { username, password, phone } = req.body;
+  db.query('INSERT INTO user_details (username, password, phone) VALUES (?, ?, ?)', [username, password, phone], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.put('/users/:id', (req, res) => {
+  const { username, password, phone } = req.body;
+  db.query('UPDATE user_details SET username = ?, password = ?, phone = ? WHERE id = ?', [username, password, phone, req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+app.delete('/users/:id', (req, res) => {
+  db.query('DELETE FROM user_details WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true });
+  });
+});
+
+// USER REQUESTS
+app.get('/requests', (req, res) => {
+  db.query('SELECT r.id, r.product, r.quantity, u.username FROM user_request r JOIN user_details u ON r.user_id = u.id', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+app.post('/requests', (req, res) => {
+  const { product, quantity, username, phone } = req.body;
+
+  db.query('SELECT id FROM user_details WHERE username = ? AND phone = ?', [username, phone], (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    const userId = results[0].id;
+    db.query('INSERT INTO user_request (product, quantity, user_id) VALUES (?, ?, ?)', [product, quantity, userId], (err) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json({ success: true });
+    });
+  });
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

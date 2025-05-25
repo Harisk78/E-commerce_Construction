@@ -47,6 +47,40 @@ const RelatedProducts = ({ searchQuery }) => {
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleSendRequest = async (product) => {
+  const quantity = quantities[product.id] || 1;
+  const username = localStorage.getItem('username');
+  const phone = localStorage.getItem('phone');
+
+  if (!username || !phone) {
+    alert('User not logged in. Please login or register.');
+    return;
+  }
+
+  try {
+    const response = await fetch('https://e-commerce-construction.vercel.app/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        product: product.name,
+        quantity,
+        username,
+        phone
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send request');
+    }
+
+    alert('Your request has been sent to the admin.');
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Failed to send your request.');
+  }
+};
+
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">{parentName}</h2>
@@ -79,9 +113,13 @@ const RelatedProducts = ({ searchQuery }) => {
                     >
                       <ion-icon name="cart-outline"></ion-icon>
                     </button>
-                    <button className="btn btn-outline-success w-50">
+                    <button
+                      className="btn btn-outline-success w-50"
+                      onClick={() => handleSendRequest(product)}
+                    >
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
+
                   </div>
                 </div>
               </div>
