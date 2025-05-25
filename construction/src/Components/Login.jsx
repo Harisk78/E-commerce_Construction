@@ -26,9 +26,13 @@ const Login = ({ setIsAuthenticated }) => {
       const data = await response.json();
 
       if (response.ok && data.message === 'Login successful') {
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('phone', data.phone);
         setIsAuthenticated(username, password);
         navigate('/');
-      } else {
+      }
+      else {
         alert('Wrong user credentials');
       }
     } catch (error) {
