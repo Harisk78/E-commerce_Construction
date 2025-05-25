@@ -15,18 +15,23 @@ const RelatedProducts = ({ searchQuery }) => {
   const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
-    fetch(`https://e-commerce-construction.vercel.app/products/${parentid}/name`)
+    fetch(`https://e-commerce-construction-backend.vercel.app/products/${parentid}/name`)
       .then(res => res.json())
       .then(data => setParentName(data.name))
       .catch(err => console.error('Error fetching parent name:', err));
 
-    fetch(`https://e-commerce-construction.vercel.app/relatedproducts/${parentid}`)
+    fetch(`https://e-commerce-construction-backend.vercel.app/relatedproducts/${parentid}`)
       .then(res => res.json())
       .then(data => {
-        setRelatedProducts(data);
-        const initialQuantities = {};
-        data.forEach(p => (initialQuantities[p.id] = 1));
-        setQuantities(initialQuantities);
+        if (Array.isArray(data)) {
+      setRelatedProducts(data);
+      const initialQuantities = {};
+      data.forEach(p => (initialQuantities[p.id] = 1));
+      setQuantities(initialQuantities);
+    } else {
+      console.error('Expected array, got:', data);
+      setRelatedProducts([]); // Set to empty array to avoid runtime error
+    }
       })
       .catch(err => console.error('Error fetching related products:', err));
   }, [parentid]);
@@ -43,10 +48,11 @@ const RelatedProducts = ({ searchQuery }) => {
   alert(`${product.name} added to cart`);
 };
 
-  const filteredRelated = relatedProducts.filter(p =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  const filteredRelated = Array.isArray(relatedProducts)
+  ? relatedProducts.filter(p =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  : [];
   const handleSendRequest = async (product) => {
   const quantity = quantities[product.id] || 1;
   const username = localStorage.getItem('username');
@@ -58,7 +64,7 @@ const RelatedProducts = ({ searchQuery }) => {
   }
 
   try {
-    const response = await fetch('https://e-commerce-construction.vercel.app/requests', {
+    const response = await fetch('https://e-commerce-construction-backend.vercel.app/requests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

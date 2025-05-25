@@ -15,7 +15,7 @@ const Login = ({ setIsAuthenticated }) => {
     }
 
     try {
-      const response = await fetch('https://e-commerce-construction.vercel.app/login', {
+      const response = await fetch('https://e-commerce-construction-backend.vercel.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

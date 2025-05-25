@@ -1,1 +1,2 @@
-select * from user_details
+select * from relatedproducts
+      

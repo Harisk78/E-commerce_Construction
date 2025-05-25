@@ -17,10 +17,10 @@ const Admin = () => {
 
   const fetchData = async () => {
     let url = '';
-    if (view === 'category') url = 'https://e-commerce-construction.vercel.app/products';
-    else if (view === 'related') url = 'https://e-commerce-construction.vercel.app/relatedproducts';
-    else if (view === 'users') url = 'https://e-commerce-construction.vercel.app/users';
-    else if (view === 'requests') url = 'https://e-commerce-construction.vercel.app/requests';
+    if (view === 'category') url = 'https://e-commerce-construction-backend.vercel.app/products';
+    else if (view === 'related') url = 'https://e-commerce-construction-backend.vercel.app/relatedproducts';
+    else if (view === 'users') url = 'https://e-commerce-construction-backend.vercel.app/users';
+    else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/requests';
 
     const res = await fetch(url);
     const data = await res.json();
@@ -37,9 +37,9 @@ const Admin = () => {
   const handleAddOrUpdate = async () => {
     let url = '';
     let method = editId ? 'PUT' : 'POST';
-    if (view === 'category') url = `https://e-commerce-construction.vercel.app/products${editId ? `/${editId}` : ''}`;
-    else if (view === 'related') url = `https://e-commerce-construction.vercel.app/relatedproducts${editId ? `/${editId}` : ''}`;
-    else if (view === 'users') url = `https://e-commerce-construction.vercel.app/users${editId ? `/${editId}` : ''}`;
+    if (view === 'category') url = `https://e-commerce-construction-backend.vercel.app/products${editId ? `/${editId}` : ''}`;
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts${editId ? `/${editId}` : ''}`;
+    else if (view === 'users') url = `https://e-commerce-construction-backend.vercel.app/users${editId ? `/${editId}` : ''}`;
 
     const res = await fetch(url, {
       method,
@@ -64,9 +64,9 @@ const Admin = () => {
 
   const handleDelete = async (id) => {
     let url = '';
-    if (view === 'category') url = `https://e-commerce-construction.vercel.app/products/${id}`;
-    else if (view === 'related') url = `https://e-commerce-construction.vercel.app/relatedproducts/${id}`;
-    else if (view === 'users') url = `https://e-commerce-construction.vercel.app/users/${id}`;
+    if (view === 'category') url = `https://e-commerce-construction-backend.vercel.app/products/${id}`;
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${id}`;
+    else if (view === 'users') url = `https://e-commerce-construction-backend.vercel.app/users/${id}`;
 
     const res = await fetch(url, { method: 'DELETE' });
     if (res.ok) {
