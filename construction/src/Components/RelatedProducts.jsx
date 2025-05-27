@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 
-const cartItems = [];
+// const cartItems = [];
 
 export const getCartItems = () => {
   const stored = localStorage.getItem('cart');
@@ -90,7 +90,6 @@ const RelatedProducts = ({ searchQuery }) => {
     <div className="container mt-4">
       <h2 className="mb-4">{parentName}</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
-        {filteredRelated.map(products=>console.log(products.name))}
         {filteredRelated.length > 0 ? (
           filteredRelated.map(product => (
             <div className="col" key={product.id}>

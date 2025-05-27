@@ -1,1 +1,1 @@
-insert into products (id,name,image,parent_id) values (NULL,'testing','',NULL)
+INSERT into products (id,name,image,parent_id) values (Null,'testing 2','',NULL)

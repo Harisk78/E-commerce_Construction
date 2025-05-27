@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -18,16 +18,20 @@ const Admin = () => {
   const fetchData = async () => {
     let url = '';
     if (view === 'category') url = 'https://e-commerce-construction-backend.vercel.app/products';
-    else if (view === 'related') url = 'https://e-commerce-construction-backend.vercel.app/relatedproducts';
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${5}`;
     else if (view === 'users') url = 'https://e-commerce-construction-backend.vercel.app/users';
     else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/requests';
 
     const res = await fetch(url);
     const data = await res.json();
-    if (view === 'category') setCategories(data);
+    try{
+      if (view === 'category') setCategories(data);
     else if (view === 'related') setRelatedProducts(data);
     else if (view === 'users') setUsers(data);
     else if (view === 'requests') setRequests(data);
+    }catch(err){
+      console.error('Fetch error',err);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -65,7 +69,7 @@ const Admin = () => {
   const handleDelete = async (id) => {
     let url = '';
     if (view === 'category') url = `https://e-commerce-construction-backend.vercel.app/products/${id}`;
-    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${id}`;
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/:productid`;
     else if (view === 'users') url = `https://e-commerce-construction-backend.vercel.app/users/${id}`;
 
     const res = await fetch(url, { method: 'DELETE' });
@@ -137,7 +141,7 @@ const Admin = () => {
               <td><button onClick={() => handleEdit(cat)} className="btn btn-sm btn-warning mx-1">Edit</button><button onClick={() => handleDelete(cat.id)} className="btn btn-sm btn-danger">Delete</button></td></tr>
             ))}
             {view === 'related' && relatedProducts.map((prod) => (
-              <tr key={prod.id}><td>{prod.id}</td><td>{prod.name}</td><td><img src={prod.imageUrl || prod.image} height="40" /></td><td>{prod.parent_id}</td>
+              <tr key={prod.id}><td>{prod.id}</td><td>{prod.name}</td><td><img src={prod.imageUrl || prod.image} height="40" /></td><td>{prod.product_id}</td>
               <td><button onClick={() => handleEdit(prod)} className="btn btn-sm btn-warning mx-1">Edit</button><button onClick={() => handleDelete(prod.id)} className="btn btn-sm btn-danger">Delete</button></td></tr>
             ))}
             {view === 'users' && users.map((user) => (
