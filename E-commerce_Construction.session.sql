@@ -1,2 +1,1 @@
-select * from relatedproducts
-      
+insert into products (id,name,image,parent_id) values (NULL,'testing','',NULL)

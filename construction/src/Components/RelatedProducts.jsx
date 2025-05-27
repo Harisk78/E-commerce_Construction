@@ -48,11 +48,10 @@ const RelatedProducts = ({ searchQuery }) => {
   alert(`${product.name} added to cart`);
 };
 
-  const filteredRelated = Array.isArray(relatedProducts)
-  ? relatedProducts.filter(p =>
+  const filteredRelated = relatedProducts.filter(p =>
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  : [];
+  )
+
   const handleSendRequest = async (product) => {
   const quantity = quantities[product.id] || 1;
   const username = localStorage.getItem('username');
@@ -91,18 +90,17 @@ const RelatedProducts = ({ searchQuery }) => {
     <div className="container mt-4">
       <h2 className="mb-4">{parentName}</h2>
       <div className="row row-cols-1 row-cols-md-3 g-4">
+        {filteredRelated.map(products=>console.log(products.name))}
         {filteredRelated.length > 0 ? (
           filteredRelated.map(product => (
             <div className="col" key={product.id}>
               <div className="card h-100 shadow-sm">
-                {product.imageUrl && (
                   <img
                     src={product.imageUrl}
                     alt={product.name}
                     className="card-img-top"
                     style={{ height: '200px', objectFit: 'cover' }}
                   />
-                )}
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{product.name}</h5>
                   <input
