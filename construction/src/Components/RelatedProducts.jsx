@@ -13,6 +13,7 @@ const RelatedProducts = ({ searchQuery }) => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [parentName, setParentName] = useState('');
   const [quantities, setQuantities] = useState({});
+  console.log(parentid);
 
   useEffect(() => {
     fetch(`https://e-commerce-construction-backend.vercel.app/products/${parentid}/name`)
@@ -92,7 +93,7 @@ const RelatedProducts = ({ searchQuery }) => {
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {filteredRelated.length > 0 ? (
           filteredRelated.map(product => (
-            <div className="col" key={product.id}>
+              <div className="col" key={product.id}>
               <div className="card h-100 shadow-sm">
                   <img
                     src={product.imageUrl}

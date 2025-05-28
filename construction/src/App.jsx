@@ -23,7 +23,7 @@ const ProtectedRoute = ({ isLoggedIn, children }) => {
   return isLoggedIn ? children : null;
 };
 
-function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, handleLogout }) {
+function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
   return (
     <div className="container py-4">
       <div className="header bg-light shadow">
@@ -36,8 +36,8 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                {parentProducts && parentProducts.length > 0 ? (
-                  parentProducts.map((product) => (
+                {products && products.length > 0 ? (
+                  products.map((product) => (
                     <li key={product.id}>
                       <Link className="dropdown-item button" to={`/related/${product.id}`}>
                         {product.name}
@@ -104,7 +104,7 @@ function AppLayout({ products, parentProducts, searchQuery, setSearchQuery, hand
           <Route path="/" element={
             <ProductGrid products={products.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()))} />
           } />
-          <Route path="/related/:parentid" element={<RelatedProducts searchQuery={searchQuery} />} />
+          <Route path="/related/:productid" element={<RelatedProducts searchQuery={searchQuery} />} />
           <Route path="/cart" element={<Cart searchQuery={searchQuery} />} />
         </Routes>
 
@@ -132,7 +132,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-  fetch('https://e-commerce-construction-backend.vercel.app/products/parents')
+  fetch('https://e-commerce-construction-backend.vercel.app/products/parent')
     .then(res => res.json())
     .then(data => {
       console.log("Fetched parent products:", data); // DEBUG LOG
