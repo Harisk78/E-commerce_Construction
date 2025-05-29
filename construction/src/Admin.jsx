@@ -17,8 +17,9 @@ const Admin = () => {
 
   const fetchData = async () => {
     let url = '';
+    let method = 'GET';
     if (view === 'category') url = 'https://e-commerce-construction-backend.vercel.app/products';
-    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${5}`;
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts`;
     else if (view === 'users') url = 'https://e-commerce-construction-backend.vercel.app/users';
     else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/requests';
 
@@ -69,7 +70,7 @@ const Admin = () => {
   const handleDelete = async (id) => {
     let url = '';
     if (view === 'category') url = `https://e-commerce-construction-backend.vercel.app/products/${id}`;
-    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/:productid`;
+    else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${id}`;
     else if (view === 'users') url = `https://e-commerce-construction-backend.vercel.app/users/${id}`;
 
     const res = await fetch(url, { method: 'DELETE' });
