@@ -9,21 +9,22 @@ export const getCartItems = () => {
 };
 
 const RelatedProducts = ({ searchQuery }) => {
-  const { parentid } = useParams();
+  const { productid } = useParams();
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [parentName, setParentName] = useState('');
   const [quantities, setQuantities] = useState({});
-  console.log(parentid);
+  // console.log(productid);
 
   useEffect(() => {
-    fetch(`https://e-commerce-construction-backend.vercel.app/products/${parentid}/name`)
+    fetch(`https://e-commerce-construction-backend.vercel.app/products/${productid}/name`)
       .then(res => res.json())
       .then(data => setParentName(data.name))
       .catch(err => console.error('Error fetching parent name:', err));
 
-    fetch(`https://e-commerce-construction-backend.vercel.app/relatedproducts/${parentid}`)
+    fetch(`https://e-commerce-construction-backend.vercel.app/relatedproducts/${productid}`)
       .then(res => res.json())
       .then(data => {
+        // console.log('Fetched related products:', data);
         if (Array.isArray(data)) {
       setRelatedProducts(data);
       const initialQuantities = {};
@@ -35,7 +36,7 @@ const RelatedProducts = ({ searchQuery }) => {
     }
       })
       .catch(err => console.error('Error fetching related products:', err));
-  }, [parentid]);
+  }, [productid]);
 
   const handleQuantityChange = (id, value) => {
     setQuantities(prev => ({ ...prev, [id]: parseInt(value) || 1 }));
