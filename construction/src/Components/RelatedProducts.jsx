@@ -13,7 +13,6 @@ const RelatedProducts = ({ searchQuery }) => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [parentName, setParentName] = useState('');
   const [quantities, setQuantities] = useState({});
-  // console.log(productid);
 
   useEffect(() => {
     fetch(`https://e-commerce-construction-backend.vercel.app/products/${productid}/name`)
@@ -24,7 +23,6 @@ const RelatedProducts = ({ searchQuery }) => {
     fetch(`https://e-commerce-construction-backend.vercel.app/relatedproducts/${productid}`)
       .then(res => res.json())
       .then(data => {
-        // console.log('Fetched related products:', data);
         if (Array.isArray(data)) {
       setRelatedProducts(data);
       const initialQuantities = {};
@@ -54,38 +52,32 @@ const RelatedProducts = ({ searchQuery }) => {
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const handleSendRequest = async (product) => {
-  const quantity = quantities[product.id] || 1;
+  const handleSendRequest = (product, quantity) => {
   const username = localStorage.getItem('username');
   const phone = localStorage.getItem('phone');
 
   if (!username || !phone) {
-    alert('User not logged in. Please login or register.');
+    alert('Please login first');
     return;
   }
 
-  try {
-    const response = await fetch('https://e-commerce-construction-backend.vercel.app/requests', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        product: product.name,
-        quantity,
-        username,
-        phone
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to send request');
-    }
-
-    alert('Your request has been sent to the admin.');
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Failed to send your request.');
-  }
+  fetch('https://e-commerce-construction-backend.vercel.app/requests', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      product: product.name,
+      username,
+      phone,
+      quantity
+    })
+  })
+    .then(res => {
+      if (res.ok) alert('Request sent successfully');
+      else alert('Failed to send request');
+    })
+    .catch(err => console.error('Request error:', err));
 };
+
 
 
   return (
@@ -119,9 +111,8 @@ const RelatedProducts = ({ searchQuery }) => {
                       <ion-icon name="cart-outline"></ion-icon>
                     </button>
                     <button
-                      className="btn btn-outline-success w-50"
-                      onClick={() => handleSendRequest(product)}
-                    >
+                      className="btn btn-outline-secondary"
+                      onClick={() => handleSendRequest(product, quantities[product.id])}>
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
 

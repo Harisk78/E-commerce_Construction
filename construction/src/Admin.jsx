@@ -21,7 +21,7 @@ const Admin = () => {
     if (view === 'category') url = 'https://e-commerce-construction-backend.vercel.app/products';
     else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts`;
     else if (view === 'users') url = 'https://e-commerce-construction-backend.vercel.app/users';
-    else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/requests';
+    else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/request';
 
     const res = await fetch(url);
     const data = await res.json();
@@ -133,7 +133,7 @@ const Admin = () => {
               {view === 'category' && (<><th>ID</th><th>Name</th><th>Image</th><th>Actions</th></>) }
               {view === 'related' && (<><th>ID</th><th>Name</th><th>Image</th><th>Parent ID</th><th>Actions</th></>) }
               {view === 'users' && (<><th>ID</th><th>Username</th><th>Phone</th><th>Actions</th></>) }
-              {view === 'requests' && (<><th>Request ID</th><th>Product</th><th>Username</th><th>Quantity</th></>) }
+              {view === 'requests' && (<><th>Request ID</th><th>Product</th><th>Username</th><th>Phone</th><th>Quantity</th></>) }
             </tr>
           </thead>
           <tbody>
@@ -150,7 +150,7 @@ const Admin = () => {
               <td><button onClick={() => handleEdit(user)} className="btn btn-sm btn-warning mx-1">Edit</button><button onClick={() => handleDelete(user.id)} className="btn btn-sm btn-danger">Delete</button></td></tr>
             ))}
             {view === 'requests' && requests.map((req) => (
-              <tr key={req.id}><td>{req.id}</td><td>{req.product}</td><td>{req.username}</td><td>{req.quantity}</td></tr>
+              <tr key={req.id}><td>{req.id}</td><td>{req.product}</td><td>{req.username}</td><td>{req.phone}</td><td>{req.quantity}</td></tr>
             ))}
           </tbody>
         </table>
