@@ -21,7 +21,7 @@ const Admin = () => {
     if (view === 'category') url = 'https://e-commerce-construction-backend.vercel.app/products';
     else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts`;
     else if (view === 'users') url = 'https://e-commerce-construction-backend.vercel.app/users';
-    else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/request';
+    else if (view === 'requests') url = 'https://e-commerce-construction-backend.vercel.app/requests';
 
     const res = await fetch(url);
     const data = await res.json();

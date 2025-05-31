@@ -52,31 +52,47 @@ const RelatedProducts = ({ searchQuery }) => {
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const handleSendRequest = (product, quantity) => {
-  const username = localStorage.getItem('username');
-  const phone = localStorage.getItem('phone');
-
-  if (!username || !phone) {
+  const handleSendRequest = async (product, quantity) => {
+  const user_id = localStorage.getItem('user_id');
+  if (!user_id) {
     alert('Please login first');
     return;
   }
 
-  fetch('https://e-commerce-construction-backend.vercel.app/requests', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      product: product.name,
-      username,
-      phone,
-      quantity
-    })
-  })
-    .then(res => {
-      if (res.ok) alert('Request sent successfully');
-      else alert('Failed to send request');
-    })
-    .catch(err => console.error('Request error:', err));
+  try {
+    // Step 1: Get user details from backend using user_id
+    const userRes = await fetch(`https://e-commerce-construction-backend.vercel.app/users/${user_id}`);
+    const user = await userRes.json();
+
+    if (!user || !user.username || !user.phone) {
+      alert('User details not found');
+      return;
+    }
+
+    // Step 2: Send user request to backend
+    const response = await fetch('https://e-commerce-construction-backend.vercel.app/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id,
+        username: user.username,
+        phone: user.phone,
+        product: product.name,
+        quantity
+      })
+    });
+
+    if (response.ok) {
+      alert('Request sent successfully');
+    } else {
+      alert('Failed to send request');
+    }
+  } catch (error) {
+    console.error('Error sending request:', error);
+    alert('Something went wrong');
+  }
 };
+
 
 
 
@@ -111,7 +127,7 @@ const RelatedProducts = ({ searchQuery }) => {
                       <ion-icon name="cart-outline"></ion-icon>
                     </button>
                     <button
-                      className="btn btn-outline-secondary"
+                      className="btn btn-outline-success"
                       onClick={() => handleSendRequest(product, quantities[product.id])}>
                       <ion-icon name="bag-add-outline"></ion-icon>
                     </button>
