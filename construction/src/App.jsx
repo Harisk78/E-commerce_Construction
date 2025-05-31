@@ -5,7 +5,7 @@ import RelatedProducts from './Components/RelatedProducts.jsx';
 import Cart from './Components/Cart.jsx';
 import Login from './Components/Login.jsx';
 import Register from './Components/Register.jsx';
-import Admin from './Admin.jsx'
+import Admin from './Components/Admin.jsx'
 import './Components/ProductGridStyle.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -135,7 +135,6 @@ function App() {
   fetch('https://e-commerce-construction-backend.vercel.app/products/parent')
     .then(res => res.json())
     .then(data => {
-      console.log("Fetched parent products:", data); // DEBUG LOG
       if (Array.isArray(data)) setParentProducts(data);
     })
     .catch((err) => {
