@@ -9,11 +9,6 @@ const AdminTable = ({ view, dataList, onEdit, onDelete }) => {
     );
   };
 
-  const confirmDelete = (id) => {
-    const confirm = window.confirm("Are you sure you want to delete this request?");
-    if (confirm) onDelete(id);
-  };
-
   const isMuted = (id) => mutedRequests.includes(id);
 
   return (
@@ -82,7 +77,7 @@ const AdminTable = ({ view, dataList, onEdit, onDelete }) => {
               <button
                 className="btn btn-sm btn-light ms-2"
                 title="Remove Request"
-                onClick={() => confirmDelete(req.id)}
+                onClick={() => onDelete(req.id)}
               >
                 ❌
               </button>

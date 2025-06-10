@@ -82,6 +82,7 @@ const Admin = () => {
     if (view === 'category') url = `https://e-commerce-construction-backend.vercel.app/products/${id}`;
     else if (view === 'related') url = `https://e-commerce-construction-backend.vercel.app/relatedproducts/${id}`;
     else if (view === 'users') url = `https://e-commerce-construction-backend.vercel.app/users/${id}`;
+    else if (view === 'requests') url = `https://e-commerce-construction-backend.vercel.app/requests/${id}`;
 
     const res = await fetch(url, { method: 'DELETE' });
     if (res.ok) {
