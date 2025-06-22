@@ -4,18 +4,35 @@ const Cart = ({ searchQuery }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const storedItems = localStorage.getItem('cart');
-    if (storedItems) {
-      setItems(JSON.parse(storedItems));
-    }
-  }, []);
+  const userId = localStorage.getItem('user_id');
+  if (!userId) return;
 
-  const handleRemove = (indexToRemove) => {
-    const updatedItems = [...items];
-    updatedItems.splice(indexToRemove, 1);
-    setItems(updatedItems);
-    localStorage.setItem('cart', JSON.stringify(updatedItems));
-  };
+  fetch(`https://e-commerce-construction-backend.vercel.app/cart/${userId}`)
+    .then(res => res.json())
+    .then(data => {
+      setItems(data);
+    })
+    .catch(err => {
+      console.error('Error fetching cart items:', err);
+    });
+}, []);
+
+
+  const handleRemove = (productId) => {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) return;
+
+  fetch(`https://e-commerce-construction-backend.vercel.app/cart/${userId}/${productId}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(() => {
+      const updatedItems = items.filter(item => item.productId !== productId);
+      setItems(updatedItems);
+    })
+    .catch(err => console.error('Error removing item:', err));
+};
+
 
   const filteredItems = items.filter(item =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -45,7 +62,7 @@ const Cart = ({ searchQuery }) => {
                   </button>
                   <button
                     className="btn btn-outline-danger mt-auto"
-                    onClick={() => handleRemove(index)}
+                    onClick={() => handleRemove(item.productId)}
                   >
                     Remove from cart
                   </button>

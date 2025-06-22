@@ -40,13 +40,39 @@ const RelatedProducts = ({ searchQuery }) => {
     setQuantities(prev => ({ ...prev, [id]: parseInt(value) || 1 }));
   };
 
-  const handleAddToCart = product => {
+  const handleAddToCart = async (product) => {
+  const userId = localStorage.getItem('user_id');
   const quantity = quantities[product.id] || 1;
-  const currentCart = getCartItems();
-  const updatedCart = [...currentCart, { ...product, quantity }];
-  localStorage.setItem('cart', JSON.stringify(updatedCart));
-  alert(`${product.name} added to cart`);
+
+  if (!userId) {
+    alert('Please login first');
+    return;
+  }
+
+  try {
+    const response = await fetch('https://e-commerce-construction-backend.vercel.app/add-to-cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId,
+        productId: product.id,
+        productName: product.name,
+        quantity,
+        image: product.imageUrl // already in base64 from DB
+      })
+    });
+
+    if (response.ok) {
+      alert(`${product.name} added to cart`);
+    } else {
+      alert('Failed to add to cart');
+    }
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    alert('Something went wrong');
+  }
 };
+
 
   const filteredRelated = relatedProducts.filter(p =>
       p.name.toLowerCase().includes(searchQuery.toLowerCase())
