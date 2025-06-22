@@ -28,7 +28,7 @@ const Login = ({ setIsAuthenticated }) => {
 
       if (response.ok && data.message === 'Login successful') {
         // Save user ID to local storage
-        localStorage.setItem('user_id', data.userId);
+        localStorage.setItem('user_id', data.user_id);
         localStorage.setItem('username', data.username);
         localStorage.setItem('phone', data.phone);
 

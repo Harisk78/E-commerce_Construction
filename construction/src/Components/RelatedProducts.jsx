@@ -80,8 +80,8 @@ const RelatedProducts = ({ searchQuery }) => {
 
   const handleSendRequest = async (product, quantity) => {
   const user_id = localStorage.getItem('user_id');
-  const username = localStorage.getItem('user_id');
-  const phone = localStorage.getItem('user_id');
+  const username = localStorage.getItem('username');
+  const phone = localStorage.getItem('phone');
   // console.log(user_id);
   if (!user_id) {
     alert('Please login first');
@@ -97,7 +97,7 @@ const RelatedProducts = ({ searchQuery }) => {
     //   return;
     // }
 
-    // Step 2: Send user request to backend
+    // Step 2: Send user request to backend    
     const response = await fetch('https://e-commerce-construction-backend.vercel.app/requests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
