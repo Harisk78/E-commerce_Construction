@@ -85,6 +85,7 @@ const RelatedProducts = ({ searchQuery }) => {
   // console.log(user_id);
   if (!user_id) {
     alert('Please login first');
+    
     return;
   }
 
