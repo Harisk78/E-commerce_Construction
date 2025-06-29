@@ -109,7 +109,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
         </Routes>
 
         <footer className="bg-dark text-white text-center py-3 mt-5">
-          <p className="mb-0">Copyright © 2025 | XYZ.com</p>
+          <p className="mb-0">Copyright © 2025 | Materon.in</p>
         </footer>
       </div>
     </div>
