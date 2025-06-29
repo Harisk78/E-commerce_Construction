@@ -33,9 +33,11 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
   return (
     <>
       {/* Fixed Header */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-          {/* Hamburger Toggle - Only Mobile */}
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+      <div className="container-fluid d-flex flex-column">
+        {/* Top Bar: Title + Hamburger */}
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <h1 className="mb-0 mx-auto text-center">Products</h1>
           <button
             className="navbar-toggler d-lg-none"
             type="button"
@@ -47,82 +49,88 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
               <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>✕</span>
             )}
           </button>
+        </div>
 
-          {/* Centered Title */}
-          <h1 className="mx-auto mb-0 text-center">Products</h1>
-
-          {/* Desktop Buttons */}
-          <div className="d-none d-lg-flex align-items-center gap-2 ms-auto">
-            <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle button" type="button" data-bs-toggle="dropdown">
-                What are you looking for
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                {products?.length > 0 ? (
-                  products.map((product) => (
-                    <li key={product.id}>
-                      <Link className="dropdown-item button" to={`/related/${product.id}`}>
-                        {product.name}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li><span className="dropdown-item text-muted">Loading...</span></li>
-                )}
-              </ul>
-            </div>
-
-            <Link to="/cart" className="text-decoration-none">
-              <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
-                <ion-icon name="cart-outline"></ion-icon> Cart
-              </button>
-            </Link>
-
-            <button className="btn btn-outline-danger d-flex align-items-center gap-1 button" onClick={handleLogout}>
-              <ion-icon name="log-out-outline"></ion-icon> Logout
+        {/* Dropdown Always Visible Below Title */}
+        <div className="mt-2 w-100 d-lg-none px-3">
+          <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+              What are you looking for
             </button>
+            <ul className="dropdown-menu w-100">
+              <li><Link className="dropdown-item" to="/">Home</Link></li>
+              {products?.length > 0 ? (
+                products.map((product) => (
+                  <li key={product.id}>
+                    <Link className="dropdown-item" to={`/related/${product.id}`}>
+                      {product.name}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li><span className="dropdown-item text-muted">Loading...</span></li>
+              )}
+            </ul>
           </div>
         </div>
 
-        {/* Mobile Dropdown & Buttons */}
+        {/* Mobile Hamburger Expanded Items (Cart + Logout) */}
         {isNavOpen && (
-          <div className="d-lg-none px-3 pb-3 mt-2 w-100">
-            <div className="dropdown mb-2">
-              <button className="btn btn-secondary dropdown-toggle button w-100" type="button" data-bs-toggle="dropdown">
-                What are you looking for
-              </button>
-              <ul className="dropdown-menu w-100">
-                <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                {products?.length > 0 ? (
-                  products.map((product) => (
-                    <li key={product.id}>
-                      <Link className="dropdown-item button" to={`/related/${product.id}`}>
-                        {product.name}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li><span className="dropdown-item text-muted">Loading...</span></li>
-                )}
-              </ul>
-            </div>
-
+          <div className="w-100 d-lg-none px-3 mt-3">
             <Link to="/cart" className="text-decoration-none mb-2 d-block">
-              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1 button">
+              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
                 <ion-icon name="cart-outline"></ion-icon> Cart
               </button>
             </Link>
-
-            <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1 button" onClick={handleLogout}>
+            <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1" onClick={handleLogout}>
               <ion-icon name="log-out-outline"></ion-icon> Logout
             </button>
           </div>
         )}
-      </nav>
+
+        {/* Desktop Menu Buttons */}
+        <div className="d-none d-lg-flex justify-content-end align-items-center gap-2 w-100 mt-2">
+          <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              What are you looking for
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li><Link className="dropdown-item" to="/">Home</Link></li>
+              {products?.length > 0 ? (
+                products.map((product) => (
+                  <li key={product.id}>
+                    <Link className="dropdown-item" to={`/related/${product.id}`}>
+                      {product.name}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li><span className="dropdown-item text-muted">Loading...</span></li>
+              )}
+            </ul>
+          </div>
+          <Link to="/cart" className="text-decoration-none" style={{ transition: 'all 0.3s ease' }}>
+            <button className="btn btn-outline-primary d-flex align-items-center gap-1">
+              <ion-icon name="cart-outline"></ion-icon> Cart
+            </button>
+          </Link>
+          <button className="btn btn-outline-danger d-flex align-items-center gap-1" onClick={handleLogout}>
+            <ion-icon name="log-out-outline"></ion-icon> Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
 
       {/* Fixed Search Bar */}
-      <div className="bg-light shadow-sm py-2 px-3 position-fixed w-100" style={{ top: '63px', zIndex: '1' }}>
+      <div
+        className="bg-light shadow-sm py-2 px-4 position-fixed w-100"
+        style={{
+          top: isNavOpen ? '200px' : '105px',
+          zIndex: 1040,
+          transition: 'top 0.3s ease'
+        }}
+      >
         <div className="container">
           <input
             type="text"
@@ -133,6 +141,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
           />
         </div>
       </div>
+
 
       {/* Main Content Below Fixed Header + Search */}
       <div style={{ paddingTop: '140px' }} className="px-3">
