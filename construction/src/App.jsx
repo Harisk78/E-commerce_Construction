@@ -24,19 +24,42 @@ const ProtectedRoute = ({ isLoggedIn, children }) => {
 };
 
 function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavOpen(prev => !prev);
+  };
+
   return (
-    <div className="container py-4">
-      <div className="header bg-light shadow">
-        <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-          <h1 className="mb-0">Products</h1>
-          <div className="d-flex align-items-center gap-2 ms-auto">
+    <>
+      {/* Fixed Header */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+        <div className="container-fluid d-flex align-items-center justify-content-between">
+          {/* Hamburger Toggle - Only Mobile */}
+          <button
+            className="navbar-toggler d-lg-none"
+            type="button"
+            onClick={toggleNav}
+          >
+            {!isNavOpen ? (
+              <span className="navbar-toggler-icon"></span>
+            ) : (
+              <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>✕</span>
+            )}
+          </button>
+
+          {/* Centered Title */}
+          <h1 className="mx-auto mb-0 text-center">Products</h1>
+
+          {/* Desktop Buttons */}
+          <div className="d-none d-lg-flex align-items-center gap-2 ms-auto">
             <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button className="btn btn-secondary dropdown-toggle button" type="button" data-bs-toggle="dropdown">
                 What are you looking for
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li><Link className="dropdown-item button" to="/">Home</Link></li>
-                {products && products.length > 0 ? (
+                {products?.length > 0 ? (
                   products.map((product) => (
                     <li key={product.id}>
                       <Link className="dropdown-item button" to={`/related/${product.id}`}>
@@ -48,20 +71,59 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
                   <li><span className="dropdown-item text-muted">Loading...</span></li>
                 )}
               </ul>
-
             </div>
+
             <Link to="/cart" className="text-decoration-none">
               <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
                 <ion-icon name="cart-outline"></ion-icon> Cart
               </button>
             </Link>
+
             <button className="btn btn-outline-danger d-flex align-items-center gap-1 button" onClick={handleLogout}>
               <ion-icon name="log-out-outline"></ion-icon> Logout
             </button>
           </div>
         </div>
 
-        <div className="container my-4">
+        {/* Mobile Dropdown & Buttons */}
+        {isNavOpen && (
+          <div className="d-lg-none px-3 pb-3 mt-2 w-100">
+            <div className="dropdown mb-2">
+              <button className="btn btn-secondary dropdown-toggle button w-100" type="button" data-bs-toggle="dropdown">
+                What are you looking for
+              </button>
+              <ul className="dropdown-menu w-100">
+                <li><Link className="dropdown-item button" to="/">Home</Link></li>
+                {products?.length > 0 ? (
+                  products.map((product) => (
+                    <li key={product.id}>
+                      <Link className="dropdown-item button" to={`/related/${product.id}`}>
+                        {product.name}
+                      </Link>
+                    </li>
+                  ))
+                ) : (
+                  <li><span className="dropdown-item text-muted">Loading...</span></li>
+                )}
+              </ul>
+            </div>
+
+            <Link to="/cart" className="text-decoration-none mb-2 d-block">
+              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1 button">
+                <ion-icon name="cart-outline"></ion-icon> Cart
+              </button>
+            </Link>
+
+            <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1 button" onClick={handleLogout}>
+              <ion-icon name="log-out-outline"></ion-icon> Logout
+            </button>
+          </div>
+        )}
+      </nav>
+
+      {/* Fixed Search Bar */}
+      <div className="bg-light shadow-sm py-2 px-3 position-fixed w-100" style={{ top: '63px', zIndex: '1' }}>
+        <div className="container">
           <input
             type="text"
             className="form-control"
@@ -72,34 +134,37 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
         </div>
       </div>
 
-      <div className="mt-header">
+      {/* Main Content Below Fixed Header + Search */}
+      <div style={{ paddingTop: '140px' }} className="px-3">
+        {/* Carousel */}
         <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
-            <div className="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div className="carousel-inner rounded shadow">
-              <div className="carousel-item active" data-bs-interval="3000">
-                <img src={Img1} className="d-block w-100" alt="Promo 1" />
-              </div>
-              <div className="carousel-item" data-bs-interval="3000">
-                <img src={Img2} className="d-block w-100" alt="Promo 2" />
-              </div>
-              <div className="carousel-item" data-bs-interval="3000">
-                <img src={Img3} className="d-block w-100" alt="Promo 3" />
-              </div>
-            </div>
-            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Next</span>
-            </button>
+          <div className="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
           </div>
+          <div className="carousel-inner rounded shadow">
+            <div className="carousel-item active" data-bs-interval="3000">
+              <img src={Img1} className="d-block w-100" alt="Promo 1" />
+            </div>
+            <div className="carousel-item" data-bs-interval="3000">
+              <img src={Img2} className="d-block w-100" alt="Promo 2" />
+            </div>
+            <div className="carousel-item" data-bs-interval="3000">
+              <img src={Img3} className="d-block w-100" alt="Promo 3" />
+            </div>
+          </div>
+          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon"></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span className="carousel-control-next-icon"></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
 
+        {/* Routes */}
         <Routes>
           <Route path="/" element={
             <ProductGrid products={products.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()))} />
@@ -108,13 +173,15 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
           <Route path="/cart" element={<Cart searchQuery={searchQuery} />} />
         </Routes>
 
+        {/* Footer */}
         <footer className="bg-dark text-white text-center py-3 mt-5">
           <p className="mb-0">Copyright © 2025 | Materon.in</p>
         </footer>
       </div>
-    </div>
+    </>
   );
 }
+
 
 function App() {
   const [products, setProducts] = useState([]);

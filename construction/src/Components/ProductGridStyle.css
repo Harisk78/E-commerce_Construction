@@ -4,7 +4,7 @@
     left:0;
     width:100%;
     z-index: 1030;
-    background-color: white;
+    background-color: rgb(227, 227, 227);
     padding:1rem;
 }
 .mt-header{
