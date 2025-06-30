@@ -51,18 +51,18 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
           </button>
         </div>
 
-        {/* Dropdown Always Visible Below Title */}
+        {/* Dropdown */}
         <div className="mt-2 w-100 d-lg-none px-3">
           <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+            <button className="btn btn-secondary dropdown-toggle w-100 button" type="button" data-bs-toggle="dropdown">
               What are you looking for
             </button>
             <ul className="dropdown-menu w-100">
-              <li><Link className="dropdown-item" to="/">Home</Link></li>
+              <li><Link className="dropdown-item button" to="/">Home</Link></li>
               {products?.length > 0 ? (
                 products.map((product) => (
                   <li key={product.id}>
-                    <Link className="dropdown-item" to={`/related/${product.id}`}>
+                    <Link className="dropdown-item button" to={`/related/${product.id}`}>
                       {product.name}
                     </Link>
                   </li>
@@ -122,12 +122,12 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
     </nav>
 
 
-      {/* Fixed Search Bar */}
+      {/*Search Bar */}
       <div
         className="bg-light shadow-sm py-2 px-4 position-fixed w-100"
         style={{
           top: isNavOpen ? '200px' : '105px',
-          zIndex: 1040,
+          zIndex: 1,
           transition: 'top 0.3s ease'
         }}
       >
@@ -144,7 +144,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
 
 
       {/* Main Content Below Fixed Header + Search */}
-      <div style={{ paddingTop: '140px' }} className="px-3">
+      <div style={{ paddingTop: '180px' }} className="px-3">
         {/* Carousel */}
         <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
           <div className="carousel-indicators">
