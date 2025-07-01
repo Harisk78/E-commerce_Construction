@@ -12,6 +12,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Img1 from './Images/img1.jpg';
 import Img2 from './Images/img2.jpg';
 import Img3 from './Images/img3.jpg';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ProtectedRoute = ({ isLoggedIn, children }) => {
   const navigate = useNavigate();
@@ -244,6 +247,7 @@ function App() {
   };
 
   return (
+    <>
     <Routes>
       <Route path="/login" element={<Login setIsAuthenticated={handleLogin} />} />
       <Route path="/register" element={<Register />} />
@@ -271,6 +275,8 @@ function App() {
       />
       {/* <Route path='home' element={<ProductGrid products={products}/>}/> */}
     </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
   );
 }
 

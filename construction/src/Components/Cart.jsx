@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = ({ searchQuery }) => {
   const [items, setItems] = useState([]);
@@ -75,15 +77,15 @@ const Cart = ({ searchQuery }) => {
         quantity
       })
     });
-
+    
     if (response.ok) {
-      alert('Request sent successfully');
+      toast.success("Item Purchased succesfully");
     } else {
-      alert('Failed to send request');
+      toast.error("Failed to Purchase Item!");
     }
   } catch (error) {
     console.error('Error sending request:', error);
-    alert('Something went wrong');
+    toast.error("Something Went Wrong");
   }
 };
 

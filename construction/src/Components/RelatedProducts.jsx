@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // const cartItems = [];
 
@@ -45,7 +47,7 @@ const RelatedProducts = ({ searchQuery }) => {
   const quantity = quantities[product.id] || 1;
 
   if (!userId) {
-    alert('Please login first');
+    toast.info("Please Login First");
     return;
   }
 
@@ -63,13 +65,13 @@ const RelatedProducts = ({ searchQuery }) => {
     });
 
     if (response.ok) {
-      alert(`${product.name} added to cart`);
+      toast.success(`${product.name} added to cart`);
     } else {
-      alert('Failed to add to cart');
+      toast.error('Failed to add to cart');
     }
   } catch (error) {
     console.error('Error adding to cart:', error);
-    alert('Something went wrong');
+    toast.error('Something went wrong');
   }
 };
 
