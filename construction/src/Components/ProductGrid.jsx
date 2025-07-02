@@ -22,12 +22,6 @@ const ProductGrid = ({ products }) => {
                 <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title text-center">{product.name}</h5>
                   <div className="d-flex justify-content-around align-items-center mt-3">
-                    {/* <input
-                      type="number"
-                      min="0"
-                      defaultValue={0}
-                      className="form-control w-25 quantity"
-                    /> */}
                     <Link to={`/related/${product.id}`}>
                       <button className="btn btn-outline-secondary button">
                         <ion-icon name="trending-up-outline"></ion-icon>

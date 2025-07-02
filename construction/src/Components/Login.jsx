@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
@@ -35,11 +36,11 @@ const Login = ({ setIsAuthenticated }) => {
         setIsAuthenticated(username, password);
         navigate('/');
       } else {
-        alert('Wrong user credentials');
+        toast.error('Wrong user credentials');
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('An error occurred during login. Please try again.');
+      toast.error('An error occurred during login. Please try again.');
     }
   };
 

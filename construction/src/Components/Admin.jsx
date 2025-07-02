@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminForm from './AdminForm.jsx';
 import AdminTable from './AdminTable.jsx';
+import { toast } from 'react-toastify';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -63,12 +64,12 @@ const Admin = () => {
     });
 
     if (res.ok) {
-      alert(editId ? 'Item updated successfully' : 'Item added successfully');
+      toast.success(editId ? 'Item updated successfully' : 'Item added successfully');
       fetchData();
       setFormData({});
       setEditId(null);
     } else {
-      alert('Failed to submit data');
+      toast.error('Failed to submit data');
     }
   };
 
@@ -86,10 +87,10 @@ const Admin = () => {
 
     const res = await fetch(url, { method: 'DELETE' });
     if (res.ok) {
-      alert('Item deleted successfully');
+      toast.info('Item deleted successfully');
       fetchData();
     } else {
-      alert('Failed to delete item');
+      toast.error('Failed to delete item');
     }
   };
 

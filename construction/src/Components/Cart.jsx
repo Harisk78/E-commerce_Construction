@@ -22,10 +22,9 @@ const Cart = ({ searchQuery }) => {
 }, []);
 
 
-  const handleRemove = (productId) => {
+const handleRemove = (productId) => {
   const userId = localStorage.getItem('user_id');
   if (!userId) return;
-
   fetch(`https://e-commerce-construction-backend.vercel.app/cart/${userId}/${productId}`, {
     method: 'DELETE'
   })
@@ -51,7 +50,7 @@ const Cart = ({ searchQuery }) => {
   const phone = localStorage.getItem('phone');
   // console.log(user_id);
   if (!user_id) {
-    alert('Please login first');
+    toast.error('Please login first');
     
     return;
   }

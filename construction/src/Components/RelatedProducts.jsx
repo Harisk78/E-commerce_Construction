@@ -67,7 +67,7 @@ const RelatedProducts = ({ searchQuery }) => {
     if (response.ok) {
       toast.success(`${product.name} added to cart`);
     } else {
-      toast.error('Failed to add to cart');
+      toast.error(`Failed to add ${product.name} to cart`);
     }
   } catch (error) {
     console.error('Error adding to cart:', error);
@@ -86,7 +86,7 @@ const RelatedProducts = ({ searchQuery }) => {
   const phone = localStorage.getItem('phone');
   // console.log(user_id);
   if (!user_id) {
-    alert('Please login first');
+    toast.error('Please login first');
     
     return;
   }
@@ -114,13 +114,13 @@ const RelatedProducts = ({ searchQuery }) => {
     });
 
     if (response.ok) {
-      alert('Request sent successfully');
+      toast.success('Item purchased successfully');
     } else {
-      alert('Failed to send request');
+      toast.error('Failed to purchase item');
     }
   } catch (error) {
     console.error('Error sending request:', error);
-    alert('Something went wrong');
+    toast.error('Something went wrong');
   }
 };
 

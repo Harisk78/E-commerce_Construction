@@ -1,6 +1,7 @@
 //Register page
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [form, setForm] = useState({ username: '', password: '', phone: '' });
@@ -18,10 +19,10 @@ const Register = () => {
       body: JSON.stringify(form),
     });
     if (res.ok) {
-      alert('Registered successfully! Please log in.');
+      toast.success('Registered successfully! Please log in.');
       navigate('/login');
     } else {
-      alert('Registration failed');
+      toast.error('Registration failed');
     }
   };
 

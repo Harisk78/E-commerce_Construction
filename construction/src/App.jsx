@@ -81,11 +81,11 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
         {isNavOpen && (
           <div className="w-100 d-lg-none px-3 mt-3">
             <Link to="/cart" className="text-decoration-none mb-2 d-block">
-              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
+              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1 button">
                 <ion-icon name="cart-outline"></ion-icon> Cart
               </button>
             </Link>
-            <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1" onClick={handleLogout}>
+            <button className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1 button" onClick={handleLogout}>
               <ion-icon name="log-out-outline"></ion-icon> Logout
             </button>
           </div>
@@ -94,15 +94,15 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
         {/* Desktop Menu Buttons */}
         <div className="d-none d-lg-flex justify-content-end align-items-center gap-2 w-100 mt-2">
           <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            <button className="btn btn-secondary dropdown-toggle button" type="button" data-bs-toggle="dropdown">
               What are you looking for
             </button>
             <ul className="dropdown-menu dropdown-menu-end">
-              <li><Link className="dropdown-item" to="/">Home</Link></li>
+              <li><Link className="dropdown-item button" to="/">Home</Link></li>
               {products?.length > 0 ? (
                 products.map((product) => (
                   <li key={product.id}>
-                    <Link className="dropdown-item" to={`/related/${product.id}`}>
+                    <Link className="dropdown-item button" to={`/related/${product.id}`}>
                       {product.name}
                     </Link>
                   </li>
@@ -113,11 +113,11 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
             </ul>
           </div>
           <Link to="/cart" className="text-decoration-none" style={{ transition: 'all 0.3s ease' }}>
-            <button className="btn btn-outline-primary d-flex align-items-center gap-1">
+            <button className="btn btn-outline-primary d-flex align-items-center gap-1 button">
               <ion-icon name="cart-outline"></ion-icon> Cart
             </button>
           </Link>
-          <button className="btn btn-outline-danger d-flex align-items-center gap-1" onClick={handleLogout}>
+          <button className="btn btn-outline-danger d-flex align-items-center gap-1 button" onClick={handleLogout}>
             <ion-icon name="log-out-outline"></ion-icon> Logout
           </button>
         </div>
