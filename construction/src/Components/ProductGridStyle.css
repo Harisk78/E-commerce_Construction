@@ -37,13 +37,24 @@
   cursor: pointer;
 }
 .slider .carousel-inner {
-  height: 80vh;
+  height: 70vh;
 }
 
 .slider .carousel-inner img {
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .slider .carousel-inner {
+    height: 250px; /* or any fixed height that looks good */
+  }
+
+  .slider .carousel-inner img {
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 @keyframes slideInFromLeft {
