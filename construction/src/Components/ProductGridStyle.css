@@ -36,3 +36,27 @@
 .pointer{
   cursor: pointer;
 }
+.slider .carousel-inner {
+  height: 80vh;
+}
+
+.slider .carousel-inner img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-500px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-title {
+  animation: slideInFromLeft 0.8s ease-out forwards;
+}

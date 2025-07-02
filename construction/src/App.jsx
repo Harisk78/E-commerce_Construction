@@ -40,7 +40,10 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
       <div className="container-fluid d-flex flex-column">
         {/* Top Bar: Title + Hamburger */}
         <div className="d-flex justify-content-between align-items-center w-100">
-          <h1 className="mb-0 mx-auto text-center">Products</h1>
+          <div>
+            <h1 className="mb-0 text-center text-success slide-title">Materon</h1>
+            <span className='text-primaryn slide-title'>Built on Trust. Powered by Supply</span>
+          </div>
           <button
             className="navbar-toggler d-lg-none"
             type="button"
@@ -129,7 +132,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
       <div
         className="bg-light shadow-sm py-2 px-4 position-fixed w-100"
         style={{
-          top: isNavOpen ? '200px' : '105px',
+          top: isNavOpen ? '200px' : '130px',
           zIndex: 1,
           transition: 'top 0.3s ease'
         }}

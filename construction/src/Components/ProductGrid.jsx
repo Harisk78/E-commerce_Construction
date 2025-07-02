@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 const ProductGrid = ({ products }) => {
   return (
     <div className="container py-4">
+      <h1>Get Your Need</h1>
       {products.length === 0 ? (
         <div className="text-center mt-5">
-          <h4>No Results Found</h4>
+          <h4 className='text-muted user-select-none'>No Results Found</h4>
         </div>
       ) : (
         <div className="row g-4">
