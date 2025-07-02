@@ -132,7 +132,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
       <div
         className="bg-light shadow-sm py-2 px-4 position-fixed w-100"
         style={{
-          top: isNavOpen ? '200px' : '130px',
+          top: isNavOpen ? '220px' : '20%',
           zIndex: 1,
           transition: 'top 0.3s ease'
         }}
@@ -150,7 +150,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
 
 
       {/* Main Content Below Fixed Header + Search */}
-      <div style={{ paddingTop: '180px' }} className="px-3">
+      <div style={{ paddingTop: '200px' }} className="px-3">
         {/* Carousel */}
         <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
           <div className="carousel-indicators">
