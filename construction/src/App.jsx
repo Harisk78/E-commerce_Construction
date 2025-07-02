@@ -132,7 +132,7 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
       <div
         className="bg-light shadow-sm py-2 px-4 position-fixed w-100"
         style={{
-          top: isNavOpen ? '220px' : '20%',
+          top: isNavOpen ? '200px' : '130px',
           zIndex: 1,
           transition: 'top 0.3s ease'
         }}
