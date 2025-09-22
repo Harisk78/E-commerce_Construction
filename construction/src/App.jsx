@@ -150,34 +150,105 @@ function AppLayout({ products, searchQuery, setSearchQuery, handleLogout }) {
 
 
       {/* Main Content Below Fixed Header + Search */}
-      <div style={{ paddingTop: '200px' }} className="px-3">
-        {/* Carousel */}
-        <div id="carouselExampleIndicators" className="carousel slide mb-4 slider" data-bs-ride="carousel">
-          <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+      <div style={{ paddingTop: '200px',userSelect:'none' }} className="px-3">
+        {/* Custom Two-Slide Carousel */}
+<div id="customCarousel" className="carousel slide mb-4 slider" data-bs-ride="carousel" data-bs-touch="true">
+  <div className="carousel-indicators">
+    <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="0" className="active" aria-current="true"></button>
+    <button type="button" data-bs-target="#customCarousel" data-bs-slide-to="1"></button>
+  </div>
+
+  <div className="carousel-inner rounded shadow">
+    {/* Slide 1 */}
+    <div className="carousel-item active" data-bs-interval="4000">
+      <div
+        className="d-flex align-items-center justify-content-between px-5 py-4"
+        style={{
+          minHeight: "400px",
+          background: "linear-gradient(135deg, #6dd5ed, #2193b0)",
+          position: "relative"
+        }}
+      >
+        {/* Left Content */}
+        <div className="text-light col-md-6">
+          <p className="fs-3 fw-bold">Discover Amazing Products</p>
+          <div className="mt-3">
+            <button className="btn btn-light me-2">Shop Now</button>
+            <button className="btn btn-outline-light">Learn More</button>
           </div>
-          <div className="carousel-inner rounded shadow">
-            <div className="carousel-item active" data-bs-interval="3000">
-              <img src={Img1} className="d-block w-100" alt="Promo 1" />
-            </div>
-            <div className="carousel-item" data-bs-interval="3000">
-              <img src={Img2} className="d-block w-100" alt="Promo 2" />
-            </div>
-            <div className="carousel-item" data-bs-interval="3000">
-              <img src={Img3} className="d-block w-100" alt="Promo 3" />
-            </div>
-          </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon"></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span className="carousel-control-next-icon"></span>
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
+
+        {/* Right Image */}
+        <div className="col-md-5 position-relative">
+          <img
+            src={Img1}
+            className="img-fluid rounded"
+            alt="Slide 1"
+            style={{ maxHeight: "300px", width: "100%" }}
+          />
+          {/* Transparent swipe zones */}
+          <div
+            className="position-absolute top-0 bottom-0 start-0"
+            style={{ width: "15%", cursor: "pointer" }}
+            data-bs-target="#customCarousel"
+            data-bs-slide="prev"
+          ></div>
+          <div
+            className="position-absolute top-0 bottom-0 end-0"
+            style={{ width: "15%", cursor: "pointer" }}
+            data-bs-target="#customCarousel"
+            data-bs-slide="next"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    {/* Slide 2 */}
+    <div className="carousel-item" data-bs-interval="4000">
+      <div
+        className="d-flex align-items-center justify-content-between px-5 py-4"
+        style={{
+          minHeight: "400px",
+          background: "linear-gradient(135deg, #ff9966, #ff5e62)",
+          position: "relative"
+        }}
+      >
+        {/* Left Content */}
+        <div className="text-light col-md-6">
+          <p className="fs-3 fw-bold">Fresh Deals Every Day</p>
+          <div className="mt-3">
+            <button className="btn btn-light me-2">View Deals</button>
+            <button className="btn btn-outline-light">Subscribe</button>
+          </div>
+        </div>
+
+        {/* Right Image */}
+        <div className="col-md-5 position-relative">
+          <img
+            src={Img2}
+            className="img-fluid rounded"
+            alt="Slide 2"
+            style={{ maxHeight: "300px", width: "100%" }}
+          />
+          {/* Transparent swipe zones */}
+          <div
+            className="position-absolute top-0 bottom-0 start-0"
+            style={{ width: "15%", cursor: "pointer" }}
+            data-bs-target="#customCarousel"
+            data-bs-slide="prev"
+          ></div>
+          <div
+            className="position-absolute top-0 bottom-0 end-0"
+            style={{ width: "15%", cursor: "pointer" }}
+            data-bs-target="#customCarousel"
+            data-bs-slide="next"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         {/* Routes */}
         <Routes>
